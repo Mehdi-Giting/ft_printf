@@ -1,0 +1,15 @@
+# Ignorer le testeur Moumounator_libft
+Moumounator_printf/
+
+# Ignorer les fichiers compilés
+*.o
+*.a
+*.out
+
+# Ignorer les fichiers de logs et temporaires
+*.log
+*.tmp
+
+# Ignorer les fichiers de macOS/Linux
+.DS_Store
+*.swp
