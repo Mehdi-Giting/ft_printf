@@ -26,12 +26,28 @@ int	ft_toupper(int c)
 	return (c);
 }
 
-// int		ft_puthex_upper(unsigned int n, const char format)
-// {
+int		ft_puthex(unsigned int n, const char format)
+{
+	int	count;
+	char	*tab;
 
-// }
-
-// int		ft_puthex_lower(unsigned int n, const char format)
-// {
-
-// }
+	count = 0;
+	if (format == 'x')
+		tab = "0123456789abcdef";
+	else
+		tab = "0123456789ABCDEF";
+	while (n > 0)
+	{
+		if (n > 16)
+		{
+			count += ft_putchar(tab[n / 16]);
+			n = n % 16;
+		}
+		else
+		{
+			count += ft_putchar(tab[n]);
+			n = 0;
+		}
+	}
+	return (count);
+}

@@ -12,29 +12,6 @@
 
 #include "ft_printf.h"
 
-// int	numof_arg(const char *format)
-// {
-// 	int	i;
-// 	int	j;
-// 	char	c;
-
-// 	i = 0;
-// 	j = 0;
-// 	while (format[i])
-// 	{
-// 		c = format[i + 1];
-// 		if (format[i] == '%' && c == 'c' && c == 's' && c == 'p' && c == 'd'
-// 			&& c == 'i' && c == 'u' && c == 'x' && c == 'X' && c == '%')
-// 		{
-// 			j++;
-// 			i++;
-// 		}
-// 		else
-// 			i++;
-// 	}
-// 	return (i);
-// }
-
 int	is_data(char c)
 {
 	if (c == 'c' || c == 's' || c == 'p' || c == 'd' || c == 'i' ||
@@ -42,48 +19,51 @@ int	is_data(char c)
 		return (1);
 	return (0);
 }
+int	hub(va_list ap, char c)
+{
+	int	count;
+
+	count = 0;
+	if (c == 'c')
+		count += (ft_putchar(va_arg(ap, int)));
+	if (c == 's')
+		count += (ft_putstr(va_arg(ap, char *)));
+	if (c == 'd' || c == 'i')
+		count += (ft_putnbr(va_arg(ap, int)));
+	// if (c == 'p')
+	// 	ft_putnbr(va_arg(ap, int));
+	if (c == 'x' || c == 'X')
+		count += ft_puthex(va_arg(ap, int), c);
+	// if (c == 'u')
+	// 	ft_putnbr(va_arg(ap, int));
+	if (c == '%')
+		count += (ft_putchar('%'));
+	return (count);
+}
 
 int	ft_printf(const char *format, ...)
 {
 	int	i;
-	va_list args;
-
-	va_start(args, format);
+	int	count;
+	va_list ap;
+	
 	i = 0;
-	if (!format)
-		return (0);
+	count = 0;
+	va_start(ap, format);
 	while (format[i])
 	{
-		if (format[i] != '%' || (format[i] == '%' && is_data(format[i + 1]) == 0))
+		if (format[i] == '%' && is_data(format[i + 1]) == 1)
 		{
-			if (format[i] == '%' && is_data(format[i + 1]) == )
-				i++;
-			ft_putchar(format[i]);
-			i++;
+			count += hub(ap, format[i + 1]);
+			i = i + 2;
 		}
 		else
 		{
-			if (format[i + 1] == 'c')
-				ft_putchar(va_arg(args, int));
-			if (format[i + 1] == 's')
-				ft_putstr(va_arg(args, char *));
-			// if (format[i + 1] == 'p')
-			// 	ft_putchar(va_arg(args, char));
-			if (format[i + 1] == 'd')
-				ft_putnbr(va_arg(args, int));
-			if (format[i + 1] == 'i')
-				ft_putnbr(va_arg(args, int));
-			if (format[i + 1] == 'u')
-				ft_putnbr(va_arg(args, int));
-			// if (format[i + 1] == 'x')
-			// 	ft_puthex_upper(va_arg(args, unsigned int));
-			// if (format[i + 1] == 'X')
-				ft_putchar(va_arg(args, unsigned int));
-			if (format[i + 1] == '%')
-				ft_putchar('%');
-			i = i + 2;
+			ft_putchar(format[i]);
+			count++;
+			i++;
 		}
 	}
-	va_end(args);
-	return ((int)ft_strlen(format));
+	va_end(ap);
+	return (count);
 }

@@ -22,41 +22,51 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-void	ft_putchar(char c)
+int	ft_putchar(char c)
 {
 	write(1, &c, 1);
+	return (1);
 }
 
-void	ft_putstr(char *s)
+int	ft_putstr(char *s)
 {
 	int	i;
+	int	count;
 
 	i = 0;
+	count = 0;
 	if (s)
 	{
 		while (s[i])
 		{
-			ft_putchar(s[i]);
+			count += ft_putchar(s[i]);
 			i++;
 		}
 	}
+	else if (s == NULL)
+		count += ft_putstr("(null)");
+	return (count);
 }
 
-void	ft_putnbr(int n)
+int	ft_putnbr(int n)
 {
 	long	ln;
+	int	count;
 
 	ln = (long)n;
+	count = 0;
 	if (ln < 0)
 	{
 		ft_putchar('-');
 		ln = ln * -1;
+		count++;
 	}
 	if (ln > 9)
 	{
-		ft_putnbr(ln / 10);
-		ft_putnbr(ln % 10);
+		count += ft_putnbr(ln / 10);
+		count += ft_putnbr(ln % 10);
 	}
 	else
-		ft_putchar((ln % 10) + '0');
+		count += ft_putchar((ln % 10) + '0');
+	return (count);
 }

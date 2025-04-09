@@ -1,5 +1,6 @@
 # Ignorer le testeur Moumounator_libft
 Moumounator_printf/
+printfTester/
 
 # Ignorer les fichiers compilés
 *.o
