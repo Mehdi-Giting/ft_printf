@@ -14,11 +14,12 @@
 
 int	is_data(char c)
 {
-	if (c == 'c' || c == 's' || c == 'p' || c == 'd' || c == 'i' ||
-		c == 'u' || c == 'x' || c == 'X' || c == '%')
+	if (c == 'c' || c == 's' || c == 'p' || c == 'd' || c == 'i'
+		|| c == 'u' || c == 'x' || c == 'X' || c == '%')
 		return (1);
 	return (0);
 }
+
 int	hub(va_list ap, char c)
 {
 	int	count;
@@ -30,12 +31,12 @@ int	hub(va_list ap, char c)
 		count += (ft_putstr(va_arg(ap, char *)));
 	if (c == 'd' || c == 'i')
 		count += (ft_putnbr(va_arg(ap, int)));
-	// if (c == 'p')
-	// 	ft_putnbr(va_arg(ap, int));
+	if (c == 'p')
+		count += ft_putptr(va_arg(ap, void *));
 	if (c == 'x' || c == 'X')
 		count += ft_puthex(va_arg(ap, int), c);
-	// if (c == 'u')
-	// 	ft_putnbr(va_arg(ap, int));
+	if (c == 'u')
+		count += ft_putunsigned(va_arg(ap, unsigned int));
 	if (c == '%')
 		count += (ft_putchar('%'));
 	return (count);
@@ -43,10 +44,10 @@ int	hub(va_list ap, char c)
 
 int	ft_printf(const char *format, ...)
 {
-	int	i;
-	int	count;
-	va_list ap;
-	
+	int		i;
+	int		count;
+	va_list	ap;
+
 	i = 0;
 	count = 0;
 	va_start(ap, format);

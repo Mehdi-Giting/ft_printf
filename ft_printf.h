@@ -21,7 +21,8 @@ int		ft_printf(const char *format, ...);
 int		ft_putchar(char c);
 int		ft_putstr(char *s);
 int		ft_putnbr(int n);
+int		ft_putunsigned(unsigned int n);
 int		ft_puthex(unsigned int n, const char format);
-size_t	ft_strlen(const char *str);
+int		ft_putptr(void *ptr);
 
 #endif

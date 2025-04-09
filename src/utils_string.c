@@ -12,16 +12,6 @@
 
 #include "../ft_printf.h"
 
-size_t	ft_strlen(const char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
-
 int	ft_putchar(char c)
 {
 	write(1, &c, 1);
@@ -51,7 +41,7 @@ int	ft_putstr(char *s)
 int	ft_putnbr(int n)
 {
 	long	ln;
-	int	count;
+	int		count;
 
 	ln = (long)n;
 	count = 0;
@@ -68,5 +58,18 @@ int	ft_putnbr(int n)
 	}
 	else
 		count += ft_putchar((ln % 10) + '0');
+	return (count);
+}
+
+int	ft_putunsigned(unsigned int n)
+{
+	long	ln;
+	int		count;
+
+	ln = (long)n;
+	count = 0;
+	if (ln > 9)
+		count += ft_putnbr(ln / 10);
+	count += ft_putchar((ln % 10) + '0');
 	return (count);
 }

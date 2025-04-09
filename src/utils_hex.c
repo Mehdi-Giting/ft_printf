@@ -12,23 +12,9 @@
 
 #include "../ft_printf.h"
 
-int	ft_tolower(int c)
+int	ft_puthex(unsigned int n, const char format)
 {
-	if (c >= 65 && c <= 90)
-		return (c + 32);
-	return (c);
-}
-
-int	ft_toupper(int c)
-{
-	if (c >= 97 && c <= 122)
-		return (c - 32);
-	return (c);
-}
-
-int		ft_puthex(unsigned int n, const char format)
-{
-	int	count;
+	int		count;
 	char	*tab;
 
 	count = 0;
@@ -36,18 +22,44 @@ int		ft_puthex(unsigned int n, const char format)
 		tab = "0123456789abcdef";
 	else
 		tab = "0123456789ABCDEF";
-	while (n > 0)
+	if (n == 0)
+		return (count += ft_putchar('0'));
+	if (n >= 16)
 	{
-		if (n > 16)
-		{
-			count += ft_putchar(tab[n / 16]);
-			n = n % 16;
-		}
-		else
-		{
-			count += ft_putchar(tab[n]);
-			n = 0;
-		}
+		count += ft_puthex(n / 16, format);
+		count += ft_puthex(n % 16, format);
 	}
+	else
+		count += ft_putchar(tab[n]);
+	return (count);
+}
+
+int	ft_ptoh(unsigned long addr, char *tab)
+{
+	int	count;
+
+	count = 0;
+	if (addr > 15)
+		count += ft_ptoh(addr / 16, tab);
+	count += ft_putchar(tab[addr % 16]);
+	return (count);
+}
+
+int	ft_putptr(void *ptr)
+{
+	int				count;
+	unsigned long	addr;
+	char			*tab;
+
+	count = 0;
+	addr = (unsigned long)ptr;
+	tab = "0123456789abcdef";
+	if (ptr == NULL)
+		return (count += ft_putstr("(nil)"));
+	count += ft_putstr("0x");
+	if (addr == 0)
+		count += ft_putchar('0');
+	else
+		count += ft_ptoh(addr, tab);
 	return (count);
 }
